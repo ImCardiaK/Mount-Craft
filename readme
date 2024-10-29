@@ -1,0 +1,23 @@
+Mount&Craft is a Minecraft SKRIPT that allows players to summon and ride their mounts with a simple right-click on an item.
+
+90% of the SKRIPT settings can be modified directly from the file SUPER EASILY!
+Commented lines will guide you through making any changes.
+
+The SKRIPT does not allow you to add MORE mounts than those included.
+You have 6 default mounts.
+Upon request, if you would like more mounts, I can assist via DISCORD.
+
+Each mount uses a variant of the default Minecraft horses, visible on this site
+
+Each mount’s gallop speed can also be modified!
+(In reality, the horse has an infinite speed potion effect that can also be SUPER EASILY adjusted in the file.)
+
+For any requests, suggestions, or bug reports, the Discord is available!
+
+
+GIVE COMMAND:
+/mountitem [player] [Item]
+
+
+PERMISSION:
+mountandcraft.item.give
