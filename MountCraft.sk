@@ -1,0 +1,239 @@
+options:
+
+    #   !!!!!! IMPORTANT !!!!!!
+    #   Do not change the number that comes after the '-'. It simply helps you identify which mount we are talking about.
+    #   If you see:
+    #   "MountPotionTier-2: 2"
+    #   It means we are referring to MOUNT NUMBER 2.
+    #   What is POSSIBLE to modify at your discretion is the number (or text) after the ':'.
+
+
+    #   This is the time that the player must wait before they can click the item again to mount their mount.
+    #   A minimum time of 1 second is recommended to AVOID SPAM!
+    TimeRespawn: 10
+
+    #   Change the items to whatever you want the player to use to summon the mount.
+    #   It can be absolutely anything you desire (from a dragon egg to turtle eggs, and anything in between).
+    MountTypeOfItem-1: diamond
+    MountTypeOfItem-2: bone
+    MountTypeOfItem-3: saddle
+    MountTypeOfItem-4: heart of the sea
+    MountTypeOfItem-5: emerald
+    MountTypeOfItem-6: book
+
+    #   You can change each mount's name and lore. (MountName & MountLore)
+    #   The lore is for the item description. If you include %nl% in your lore, it will add a line break. 
+    #   Remember to reapply the color code after each line break if you're using one.
+    #
+    #   You can also change the TIER of the Potion (MountPotionTier). The higher the TIER, the more excessive your horse's speed will be. 
+    #   Do not use excessively high numbers, as your players may experience chunk loading issues or even get stuck beneath the ground.
+    #
+    #                                   - Mount Num. 1 -
+    MountName-1: "&f&lDonkey"
+    MountLore-1: "%nl%&f&lInformation:%nl%  &6• &7Type: &6Donkey%nl%  &6• &7Color: &6It's a DONKEY !!%nl%  &6• &7Speed: &61.5"
+    MountPotionTier-1: 2
+    
+    #                                   - Mount Num. 2 -
+    MountName-2: "&f&lMarsupilami"
+    MountLore-2: "%nl%&f&lInformation:%nl%  &6• &7Type: &6Camel%nl%  &6• &7Color: &6It's a CAMEL !!%nl%  &6• &7Speed: &62"
+    MountPotionTier-2: 2
+    #                                   - Mount Num. 3 -
+    MountName-3: "&f&lFranck"
+    MountLore-3: "%nl%&f&lInformation:%nl%  &6• &7Type: &6Horse%nl%  &6• &7Color: &6Grey%nl%  &6• &7Speed: &61.5"
+    MountPotionTier-3: 2
+    #                                   - Mount Num. 4 -
+    MountName-4: "&f&lLouis"
+    MountLore-4: "%nl%&f&lInformation:%nl%  &6• &7Type: &6Horse%nl%  &6• &7Color: &6Creamy%nl%  &6• &7Speed: &61.5"
+    MountPotionTier-4: 2
+    #                                   - Mount Num. 5 -
+    MountName-5: "&f&lSpidey"
+    MountLore-5: "%nl%&f&lInformation:%nl%  &6• &7Type: &6Horse%nl%  &6• &7Color: &6Black%nl%  &6• &7Speed: &61.5"
+    MountPotionTier-5: 2
+    #                                   - Mount Num. 6 -
+    MountName-6: "&f&lDonkey (Kong)"
+    MountLore-6: "%nl%&f&lInformation:%nl%  &6• &7Type: &6Horse%nl%  &6• &7Color: &6White%nl%  &6• &7Speed: &61.5"
+    MountPotionTier-6: 2
+    
+    #   This is for administrators with permission to give the mount item.
+    #   The value of this option should be included in the give command. (For example: /mountitem (player) (VALUE))
+    #   Do not include color codes, as this will impact functionality and serve no real purpose.
+    #   You can enter anything you like, but I recommend using something logical so that when you give yourself the item, 
+    #   you'll know which mount you will receive.
+    NameForTheGiveCommand-Mount1: "donkey"
+    NameForTheGiveCommand-Mount2: "marsupilami"
+    NameForTheGiveCommand-Mount3: "franck"
+    NameForTheGiveCommand-Mount4: "louis"
+    NameForTheGiveCommand-Mount5: "spidey"
+    NameForTheGiveCommand-Mount6: "donkeykong"
+
+
+
+on join:
+    if {Monture.Spawn.%player%} is not set:
+        set {Monture.Spawn.%player%} to false
+    if {Monture.TimeRespawn.%player%} is not set:
+        set {Monture.TimeRespawn.%player%} to {@TimeRespawn}
+
+on right click:
+    if name of player's tool is {@MountName-1} or {@MountName-2} or {@MountName-3} or {@MountName-4} or {@MountName-5} or {@MountName-6}:
+        cancel event
+        if {Monture.Spawn.%player%} = false:
+            if {Monture.TimeRespawn.%player%} <= 0:
+                if name of player's tool is {@MountName-1}:
+                    remove 1 {@MountTypeOfItem-1} named {@MountName-1} from player's inventory
+                    spawn a donkey at location of player
+                    set {Monture.Spawn.%player%} to true
+                    set {_horse} to last spawned donkey
+                    add nbt compound of "{Invulnerable:1}" to nbt compound of {_horse}
+                    set name of {_horse} to {@MountName-1}
+                    equip {_horse} with a saddle
+                    tame {_horse} to player
+                    make player ride {_horse}
+                    silence {_horse}
+                    apply infinite speed of tier {@MountPotionTier-1} without particles to {_horse}
+
+                else if name of player's tool is {@MountName-2}:
+                    remove 1 {@MountTypeOfItem-2} named {@MountName-2} from player's inventory
+                    spawn a camel at location of player
+                    set {Monture.Spawn.%player%} to true
+                    set {_horse} to last spawned camel
+                    add nbt compound of "{Invulnerable:1}" to nbt compound of {_horse}
+                    set name of {_horse} to {@MountName-2}
+                    equip {_horse} with a saddle
+                    tame {_horse} to player
+                    make player ride {_horse}
+                    silence {_horse}
+                    apply speed of tier {@MountPotionTier-2} without particles to {_horse} for 999999999 seconds
+                
+                else if name of player's tool is {@MountName-3}:
+                    remove 1 {@MountTypeOfItem-3} named {@MountName-3} from player's inventory
+                    spawn a horse at location of player
+                    set {Monture.Spawn.%player%} to true
+                    set {_horse} to last spawned horse
+                    add nbt compound of "{Variant:2, Invulnerable:1}" to nbt compound of {_horse}
+                    set name of {_horse} to {@MountName-3}
+                    equip {_horse} with a saddle
+                    tame {_horse} to player
+                    make player ride {_horse}
+                    silence {_horse}
+                    apply speed of tier {@MountPotionTier-3} without particles to {_horse} for 999999999 seconds
+                
+                else if name of player's tool is {@MountName-4}:
+                    remove 1 {@MountTypeOfItem-4} named {@MountName-4} from player's inventory
+                    spawn a horse at location of player
+                    set {Monture.Spawn.%player%} to true
+                    set {_horse} to last spawned horse
+                    add nbt compound of "{Variant:3, Invulnerable:1}" to nbt compound of {_horse}
+                    set name of {_horse} to {@MountName-4}
+                    equip {_horse} with a saddle
+                    tame {_horse} to player
+                    make player ride {_horse}
+                    silence {_horse}
+                    apply speed of tier {@MountPotionTier-4} without particles to {_horse} for 999999999 seconds
+                
+                else if name of player's tool is {@MountName-5}:
+                    remove 1 {@MountTypeOfItem-5} named {@MountName-5} from player's inventory
+                    spawn a horse at location of player
+                    set {Monture.Spawn.%player%} to true
+                    set {_horse} to last spawned horse
+                    add nbt compound of "{Variant:3, Invulnerable:1}" to nbt compound of {_horse}
+                    set name of {_horse} to {@MountName-5}
+                    equip {_horse} with a saddle
+                    tame {_horse} to player
+                    make player ride {_horse}
+                    silence {_horse}
+                    apply speed of tier {@MountPotionTier-5} without particles to {_horse} for 999999999 seconds
+                
+                else if name of player's tool is {@MountName-6}:
+                    remove 1 {@MountTypeOfItem-6} named {@MountName-6} from player's inventory
+                    spawn a horse at location of player
+                    set {Monture.Spawn.%player%} to true
+                    set {_horse} to last spawned horse
+                    add nbt compound of "{Variant:0, Invulnerable:1}" to nbt compound of {_horse}
+                    set name of {_horse} to {@MountName-6}
+                    equip {_horse} with a saddle
+                    tame {_horse} to player
+                    make player ride {_horse}
+                    silence {_horse}
+                    apply speed of tier {@MountPotionTier-6} without particles to {_horse} for 999999999 seconds
+                
+            else:
+                send "%nl%&cVotre monture arrivera dans quelques secondes. &c(&7%{Monture.TimeRespawn.%player%}% secondes&c) %nl%" to player
+
+on vehicle exit:
+    set {Monture.TimeRespawn.%player%} to 1
+    set {Monture.Spawn.%player%} to false
+    delete vehicle of player
+    if name of vehicle of player is {@MountName-1}:
+        give 1 of {@MountTypeOfItem-1} named {@MountName-1} with lore {@MountLore-1} to player
+    if name of vehicle of player is {@MountName-2}:
+        give 1 of {@MountTypeOfItem-2} named {@MountName-2} with lore {@MountLore-2} to player
+    if name of vehicle of player is {@MountName-3}:
+        give 1 of {@MountTypeOfItem-3} named {@MountName-3} with lore {@MountLore-3} to player
+    if name of vehicle of player is {@MountName-4}:
+        give 1 of {@MountTypeOfItem-4} named {@MountName-4} with lore {@MountLore-4} to player
+    if name of vehicle of player is {@MountName-5}:
+        give 1 of {@MountTypeOfItem-5} named {@MountName-5} with lore {@MountLore-5} to player
+    if name of vehicle of player is {@MountName-6}:
+        give 1 of {@MountTypeOfItem-6} named {@MountName-6} with lore {@MountLore-6} to player
+    while {Monture.TimeRespawn.%player%} > 0:
+        wait 1 seconds
+        remove 1 from {Monture.TimeRespawn.%player%}
+        # send "&d%{Monture.TimeRespawn.%player%}%" to player
+
+on quit:
+    if {Monture.Spawn.%player%} = true:
+        delete vehicle of player
+        if name of vehicle of player is {@MountName-1}:
+            give 1 of {@MountTypeOfItem-1} named {@MountName-1} with lore {@MountLore-1} to player
+        
+        if name of vehicle of player is {@MountName-2}:
+            give 1 of {@MountTypeOfItem-2} named {@MountName-2} with lore {@MountLore-2} to player
+        
+        if name of vehicle of player is {@MountName-3}:
+            give 1 of {@MountTypeOfItem-3} named {@MountName-3} with lore {@MountLore-3} to player
+        
+        if name of vehicle of player is {@MountName-4}:
+            give 1 of {@MountTypeOfItem-4} named {@MountName-4} with lore {@MountLore-4} to player
+        
+        if name of vehicle of player is {@MountName-5}:
+            give 1 of {@MountTypeOfItem-5} named {@MountName-5} with lore {@MountLore-5} to player
+        
+        if name of vehicle of player is {@MountName-6}:
+            give 1 of {@MountTypeOfItem-6} named {@MountName-6} with lore {@MountLore-6} to player
+
+
+on inventory open:
+    if {Monture.Spawn.%player%} = true:
+        cancel event
+        send "&8huhhh... -_-" to player
+        play sound "entity.villager.no" at volume 2 with pitch 1 to player
+
+command /mountitem [<player>] [<text>]:
+    permission: cdk.mountitem.give
+    trigger:
+        if arg 1 is set:
+            
+            if arg-2 is {@NameForTheGiveCommand-Mount1}:
+                give 1 of {@MountTypeOfItem-1} named {@MountName-1} with lore {@MountLore-1} to arg 1
+            
+            if arg-2 is {@NameForTheGiveCommand-Mount2}:
+                give 1 of {@MountTypeOfItem-2} named {@MountName-2} with lore {@MountLore-2} to arg 1
+            
+            if arg-2 is {@NameForTheGiveCommand-Mount3}:
+                give 1 of {@MountTypeOfItem-3} named {@MountName-3} with lore {@MountLore-3} to arg 1
+            
+            if arg-2 is {@NameForTheGiveCommand-Mount4}:
+                give 1 of {@MountTypeOfItem-4} named {@MountName-4} with lore {@MountLore-4} to arg 1
+            
+            if arg-2 is {@NameForTheGiveCommand-Mount5}:
+                give 1 of {@MountTypeOfItem-5} named {@MountName-5} with lore {@MountLore-5} to arg 1
+            
+            if arg-2 is {@NameForTheGiveCommand-Mount6}:
+                give 1 of {@MountTypeOfItem-6} named {@MountName-6} with lore {@MountLore-6} to arg 1
+                
+            # set {Monture.Spawn.%player%} to false
+            # set {Monture.TimeRespawn.%player%} to 0
+
+        
+        
